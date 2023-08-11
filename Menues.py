@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QMenu, QWidget, QColorDialog, QVBoxLayout, QHBoxLayout, QLayout, QLabel, QSlider, QSpinBox, \
-    QAbstractSpinBox, QToolBar
+    QAbstractSpinBox, QToolBar, QPushButton
 from PyQt6.QtGui import QAction, QColor, QIcon, QActionGroup
 from PyQt6.QtCore import Qt, QSize
 
