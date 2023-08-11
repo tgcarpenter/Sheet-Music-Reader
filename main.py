@@ -21,6 +21,7 @@ class MyMainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Sheet Music Viewer")
         self.resize(800, 1000)
+        self.showMaximized()
 
         self.last_url = str()
         self.cur_name = str()
@@ -36,6 +37,12 @@ class MyMainWindow(QMainWindow):
         self.file_menu.reset_actions(self.recent_docs)
 
         self.color_menu = ColorMenu(self)
+
+        self.hideIcon = QIcon("Less.png")
+        self.showIcon = QIcon("Greater.png")
+        self.hideButton = QPushButton(self.hideIcon, "", self)
+        self.hideButton.setFixedWidth(24)
+        self.hideButton.clicked.connect(self.toggleHide)
 
         self.page_down_button = QPushButton()
         self.page_down_button.setFixedHeight(100)
@@ -89,6 +96,7 @@ class MyMainWindow(QMainWindow):
         layout.addLayout(scroll_layout)
         color_layout = QHBoxLayout()
         color_layout.addWidget(self.color_menu)
+        color_layout.addWidget(self.hideButton, alignment=Qt.AlignmentFlag.AlignTop)
         color_layout.addLayout(layout)
 
         widget = QWidget()
@@ -101,6 +109,14 @@ class MyMainWindow(QMainWindow):
         size.setWidth(round(size.width() * (1 / .75)))
         size.setHeight(round(size.height() * (1 / .75)))
         draw_label.pixmap = draw_label.pixmap.scaled(size * self.pdf_view.zoomFactor())
+
+    def toggleHide(self):
+        if self.color_menu.isHidden():
+            self.color_menu.setHidden(False)
+            self.hideButton.setIcon(self.hideIcon)
+        else:
+            self.color_menu.hide()
+            self.hideButton.setIcon(self.showIcon)
 
     def change_page(self, page):  # Changes pdf page bast of self.page_scroller value
         self.pdf_view.pageNavigator().jump(page - 1, self.pdf_view.pageNavigator().currentLocation())
